@@ -1,0 +1,166 @@
+.profile-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px;
+  background: #fbf9fb;
+}
+
+.profile-page h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+.profile-card {
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(161, 149, 149, 0.08);
+}
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+.profile-section label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #444;
+}
+.profile-section input,
+.profile-section textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+.profile-section textarea {
+  resize: none;
+  height: 80px;
+}
+.profile-section input:focus,
+.profile-section textarea:focus {
+  outline: none;
+  border-color: #4f46e5;
+}
+.save-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background-color: #4f46e5;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.save-btn:hover {
+  background-color: #4338ca;
+}
+.progress-box {
+  margin-bottom: 25px;
+}
+.progress-box p{
+  margin-left: 350px;
+}
+.progress-bar {
+  width: 50%;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-left: 350px;
+}
+.progress-fill {
+  height: 100%;
+  background: #058810;
+  transition: width 0.4s ease;
+}
+.profile-section {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+.profile-section label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+}
+.profile-section input[type="file"] {
+  padding: 6px;
+  font-size: 14px;
+}
+.resume-name {
+  font-size: 13px;
+  margin-top: 6px;
+  color: #16a34a;
+  font-weight: 500;
+}
+.edit-btn {
+  float: right;
+  margin-bottom: 15px;
+  background: #111827;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.edit-btn:hover {
+  background: #1f2937;
+}
+.profile-section small {
+  font-size: 12px;
+  color: #6b7280;
+}
+@media (max-width: 768px) {
+
+  .profile-page {
+    width: 95%;
+    margin: 20px auto;
+  }
+
+  .edit-btn {
+    width: 100%;
+    float: none;
+    margin-bottom: 15px;
+  }
+
+  .profile-card {
+    padding: 18px;
+  }
+
+  .profile-section input,
+  .profile-section textarea {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .skill-input {
+    flex-direction: column;
+  }
+
+  .skill-input button {
+    width: 100%;
+  }
+
+  .skills-container {
+    gap: 6px;
+  }
+
+  .skill-tag {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+
+  .save-btn {
+    width: 100%;
+    padding: 10px;
+  }
+
+}

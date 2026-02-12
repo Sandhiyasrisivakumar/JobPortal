@@ -1,0 +1,274 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f6f8;
+  padding: 20px;
+}
+
+/* Form */
+.login-form {
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Headings */
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* Inputs */
+.login-form input {
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+/* Button */
+.login-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #3f51b5;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-form button:hover {
+  background-color: #303f9f;
+}
+
+/* Links */
+.login-form p {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.login-form a {
+  color: #3f51b5;
+  text-decoration: none;
+}
+.login-form a:hover {
+  text-decoration: underline;
+}
+* {
+  box-sizing: border-box;
+}
+
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.login-card {
+  background: white;
+  padding: 2.5rem;
+  width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.6s ease;
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.password-box {
+  position: relative;
+  
+}
+
+.password-box span {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #667eea;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.forgot {
+  color: #667eea;
+  cursor: pointer;
+}
+.forgot-text {
+  color: #4f46e5;
+  cursor: pointer;   /* 🔥 THIS is the pointer */
+  font-size: 14px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.forgot-text:hover {
+  text-decoration: underline;
+  color: #4338ca;
+}
+.login-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #3f51b5;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+.error {
+  color: red;
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+  text-align: center;
+}
+
+.register {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.register span {
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 500;
+}
+.register-link {
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+.login-container {
+  width: 400px;
+  margin: 50px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+@media (max-width: 768px) {
+
+  .form-container {
+    width: 95%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  button {
+    width: 100%;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .login-container {
+    padding: 20px;
+    align-items: flex-start;
+  }
+
+  .login-card {
+    width: 100%;
+    padding: 25px;
+    margin-top: 40px;
+    border-radius: 10px;
+  }
+
+  .login-card h2 {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .login-card input {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .password-box span {
+    top: 10px;
+    font-size: 12px;
+  }
+
+  .options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .login-card button {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+}
+
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

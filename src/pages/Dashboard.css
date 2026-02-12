@@ -1,0 +1,345 @@
+/* =======================
+   DASHBOARD BASE
+======================= */
+.dashboard {
+  width: 100%;
+  min-height: 100vh;
+  padding: 30px 60px;
+  background: #f4f6fb;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.dashboard h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+/* =======================
+   TOP MENU
+======================= */
+.menu {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.menu-btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  background: #6366f1;
+  color: white;
+}
+
+.menu-btn:hover {
+  background: #4f46e5;
+}
+
+.logout {
+  background-color: #ef4444;
+}
+
+.logout:hover {
+  background-color: #dc2626;
+}
+
+/* =======================
+   SKILLS SECTION
+======================= */
+.dashboard ul {
+  list-style: none;
+  padding: 0;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.dashboard li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+/* Progress text */
+.percentage-text {
+  text-align: center;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+/* =======================
+   ADD SKILL
+======================= */
+.add-skill-box {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 25px auto;
+  max-width: 500px;
+}
+
+.add-skill-box input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+.add-skill-btn {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.add-skill-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =======================
+   ACTION BUTTONS
+======================= */
+.reset-btn,
+.jobs-btn {
+  display: block;
+  margin: 15px auto;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.reset-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.reset-btn:hover {
+  background: #dc2626;
+}
+
+.jobs-btn {
+  background: #1e3a8a;
+  color: white;
+}
+
+.jobs-btn:hover {
+  background: #1e40af;
+}
+
+/* =======================
+   JOB CARDS
+======================= */
+.profile-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.job-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 10px;
+  animation: fadeUp 0.6s ease forwards;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.job-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.job-card h3 {
+  margin-bottom: 4px;
+}
+
+/* =======================
+   APPLY & SAVE BUTTONS
+======================= */
+.job-card button {
+  margin-right: 8px;
+}
+
+.apply-btn,
+.save-btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* Apply */
+.apply-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.apply-btn:hover {
+  background: #1d4ed8;
+}
+
+/* Save */
+.save-btn {
+  background: #111827;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #374151;
+}
+
+/* =======================
+   STATUS TEXT
+======================= */
+.ready {
+  text-align: center;
+  color: green;
+  font-weight: bold;
+}
+
+.not-ready {
+  text-align: center;
+  color: #dc2626;
+  font-weight: bold;
+}
+
+/* ======================
+   ICON ALIGNMENT
+====================== */
+.menu-btn svg,
+.apply-btn svg,
+.save-btn svg,
+.section-title svg {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* ======================
+   SECTION TITLE
+====================== */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #1f2937;
+}
+
+/* ======================
+   PAGE LOAD ANIMATION
+====================== */
+.dashboard {
+  animation: pageFade 0.6s ease-in;
+}
+
+/* =======================
+   ANIMATION
+======================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ======================
+   BUTTON MICRO INTERACTION
+====================== */
+.menu-btn,
+.apply-btn,
+.save-btn {
+  transition: all 0.25s ease;
+}
+
+.menu-btn:hover,
+.apply-btn:hover,
+.save-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* ======================
+   JOB CARD ICON GLOW
+====================== */
+.job-card:hover .apply-btn {
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
+}
+
+.job-card:hover .save-btn {
+  box-shadow: 0 0 12px rgba(17, 24, 39, 0.4);
+}
+@media (max-width: 768px) {
+
+  .dashboard {
+    width: 95%;
+    margin: 20px auto;
+  }
+
+  .menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .menu-btn {
+    width: 100%;
+  }
+
+  .add-skill-box {
+    flex-direction: column;
+  }
+
+  .add-skill-btn {
+    width: 100%;
+  }
+
+  .reset-btn,
+  .jobs-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .job-card {
+    padding: 12px;
+  }
+
+  .apply-btn,
+  .save-btn {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .profile-card {
+    padding: 15px;
+  }
+
+}
