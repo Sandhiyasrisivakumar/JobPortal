@@ -6,14 +6,15 @@ import { useNavigate } from "react-router-dom";
 function JobList() {
   const [jobs, setJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
-  const [search, setSearch] = useState("");;
+  const [search, setSearch] =useState("");
   const navigate = useNavigate();
 
   // Fetch jobs from backend
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = axios.get("https://jobportal-1-x84n.onrender.com/api/jobs") // ✅ removed localhost
+        const res = await axios.get("https://jobportal-1-x84n.onrender.com/api/jobs"); // ✅ removed localhost
+        console.log("API DATA:", res.data); // 👈 ADD THIS
         setJobs(res.data);
       } catch (err) {
         console.error("Error fetching jobs:", err);
@@ -108,4 +109,4 @@ function JobList() {
   );
 }
 
-export default JobList;
+export default JobList;  
