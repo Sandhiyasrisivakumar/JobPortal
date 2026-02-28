@@ -1,24 +1,28 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
+// ✅ Load .env first
 import dotenv from "dotenv";
-
-import authRoutes from "./routes/authRoutes.js";
-import jobRoutes from "./routes/jobRoutes.js";
- // ✅ THIS LINE WAS MISSING
- import path from "path";
+import path from "path";
 import { fileURLToPath } from "url";
-import applicationRoutes from "./routes/applicationRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
-
-
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Load environment variables
+dotenv.config({ path: path.join(__dirname, ".env") });
 
-dotenv.config();
+console.log(
+  "OPENAI_API_KEY loaded:",
+  process.env.OPENAI_API_KEY ? "✅ Yes" : "❌ No"
+);
+
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+
+import authRoutes from "./routes/authRoutes.js";
+import jobRoutes from "./routes/jobRoutes.js";
+import applicationRoutes from "./routes/applicationRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import aiRoutes from "./routes/ai.js";
 
 const app = express();
 
@@ -27,17 +31,14 @@ app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/jobs", jobRoutes); // ✅ now defined
-
-
-
+app.use("/api/jobs", jobRoutes);
+app.use("/api/ai", aiRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/admin", adminRoutes);
 
-// DB
+// Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected successfully"))

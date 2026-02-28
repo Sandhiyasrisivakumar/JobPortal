@@ -17,6 +17,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
 import AdminRoute from "./admin/AdminRoute";
+import AIInterview from "./pages/AIInterview";
 
 function App() {
   return (
@@ -68,6 +69,15 @@ function App() {
   element={
     <ProtectedRoute>
       <ApplicationSuccess />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/ai-interview"
+  element={
+    <ProtectedRoute>
+      <AIInterview />
     </ProtectedRoute>
   }
 />

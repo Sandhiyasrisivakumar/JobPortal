@@ -189,6 +189,10 @@ const toggleSaveJob = (job) => {
 </div>
 
 
+
+<button onClick={() => navigate("/ai-interview")}>
+  AI Interview Questions
+</button>
       <h2>My Skill Progress</h2>
 
       <ProgressBar  percent={percent} />
