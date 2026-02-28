@@ -13,7 +13,7 @@ function JobList() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("https://jobportal-1-x84n.onrender.com"); // ✅ removed localhost
+        axios.get("https://jobportal-1-x84n.onrender.com/api/jobs") // ✅ removed localhost
         setJobs(res.data);
       } catch (err) {
         console.error("Error fetching jobs:", err);
