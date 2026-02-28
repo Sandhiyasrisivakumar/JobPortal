@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import JobList from "./pages/JobList";
 import Profile from "./pages/Profile";
 import ApplyJob from "./pages/ApplyJob";
+import  ApplicationSuccess from "./pages/ApplicationSuccess";
 
 // User route protection
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -62,6 +63,14 @@ function App() {
         }
       />
 
+<Route
+  path="/application-success"
+  element={
+    <ProtectedRoute>
+      <ApplicationSuccess />
+    </ProtectedRoute>
+  }
+/>
       {/* ================= ADMIN ================= */}
       <Route path="/admin/login" element={<AdminLogin />} />
 
