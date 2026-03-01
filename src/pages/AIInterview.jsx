@@ -12,92 +12,70 @@ function AIInterview() {
   const [loading, setLoading] = useState(false);
   const [score, setScore] = useState(null);
 
-  // Fetch jobs
+  // Fetch jobs from backend
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/api/jobs`);
+      .get(`${import.meta.env.VITE_API_URL}/api/jobs`)
       .then((res) => setJobs(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   // Timer logic
-
-
   useEffect(() => {
-  if (questions.length === 0 || score !== null) return;
+    if (questions.length === 0 || score !== null) return;
 
-  const timer = setInterval(() => {
-    setTimeLeft(prev => {
-      if (prev <= 1) {
-        setCurrentIndex(prevIndex => {
-          if (prevIndex + 1 < questions.length) {
-            return prevIndex + 1;
-          } else {
-            calculateScore();
-            return prevIndex;
-          }
-        });
-        return 60;
-      }
-      return prev - 1;
-    });
-  }, 1000);
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          handleNext();
+          return 60;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-  return () => clearInterval(timer);
-}, [questions, score]);
+    return () => clearInterval(timer);
+  }, [questions, currentIndex, score]);
 
-const handleGenerate = async () => {
-  if (!role) {
-    alert("Please select a job role");
-    return;
-  }
+  // Generate questions
+  const handleGenerate = async () => {
+    if (!role) return alert("Please select a job role");
 
-  try {
     setLoading(true);
     setScore(null);
     setCurrentIndex(0);
     setAnswers({});
     setTimeLeft(60);
 
-    const res = axios.post(`${import.meta.env.VITE_API_URL}/api/ai/questions`, { role })
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/ai/questions`,
+        { role }
+      );
 
-    console.log("API Response:", res.data); // DEBUG
+      let list = [];
 
-    if (!res.data || !res.data.questions) {
-      throw new Error("Invalid response from server");
+      if (Array.isArray(res.data.questions)) list = res.data.questions;
+      else if (typeof res.data.questions === "string")
+        list = res.data.questions
+          .split(/\r?\n/)
+          .map((q) => q.trim())
+          .filter((q) => q !== "");
+
+      if (list.length === 0) throw new Error("No questions received");
+
+      setQuestions(list);
+    } catch (err) {
+      console.error("Generation error:", err);
+      alert("Failed to generate questions. Check console.");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    let list = [];
-
-    if (Array.isArray(res.data.questions)) {
-      list = res.data.questions;
-    } else if (typeof res.data.questions === "string") {
-      list = res.data.questions
-        .split(/\r?\n/)
-        .map(q => q.trim())
-        .filter(q => q !== "");
-    }
-
-    if (list.length === 0) {
-      throw new Error("No questions received");
-    }
-
-    setQuestions(list);
-
-  } catch (err) {
-    console.error("Generation error:", err);
-    alert("Failed to generate questions. Check console.");
-  } finally {
-    setLoading(false);
-  }
-};
-
- const handleAnswerChange = (value) => {
-  setAnswers(prev => ({
-    ...prev,
-    [currentIndex]: value
-  }));
-};
+  const handleAnswerChange = (value) => {
+    setAnswers({ ...answers, [currentIndex]: value });
+  };
 
   const handleNext = () => {
     if (currentIndex + 1 < questions.length) {
@@ -108,22 +86,19 @@ const handleGenerate = async () => {
     }
   };
 
+  // Score calculation
   const calculateScore = () => {
     let totalScore = 0;
 
     questions.forEach((q, index) => {
       const answer = answers[index] || "";
 
-      // Basic scoring logic
       if (answer.length > 20) totalScore += 5;
       if (answer.length > 50) totalScore += 5;
 
-      // Simple keyword match
       const keywords = q.toLowerCase().split(" ");
-      keywords.forEach(word => {
-        if (answer.toLowerCase().includes(word)) {
-          totalScore += 1;
-        }
+      keywords.forEach((word) => {
+        if (answer.toLowerCase().includes(word)) totalScore += 1;
       });
     });
 
@@ -163,9 +138,7 @@ const handleGenerate = async () => {
               <textarea
                 placeholder="Type your answer..."
                 value={answers[currentIndex] || ""}
-                onChange={(e) =>
-                  handleAnswerChange(e.target.value)
-                }
+                onChange={(e) => handleAnswerChange(e.target.value)}
               />
             </div>
 
