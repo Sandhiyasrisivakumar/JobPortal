@@ -5,22 +5,25 @@ import "./AIInterview.css";
 function AIInterview() {
   const [jobs, setJobs] = useState([]);
   const [role, setRole] = useState("");
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState([]); // always array
   const [answers, setAnswers] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
   const [loading, setLoading] = useState(false);
   const [score, setScore] = useState(null);
 
-  // Fetch jobs from backend
+  // Fetch jobs
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/api/jobs`)
-      .then((res) => setJobs(res.data))
-      .catch((err) => console.error(err));
+      .then((res) => {
+        if (Array.isArray(res.data)) setJobs(res.data);
+        else console.warn("Jobs API did not return an array", res.data);
+      })
+      .catch((err) => console.error("Jobs fetch error:", err));
   }, []);
 
-  // Timer logic
+  // Timer
   useEffect(() => {
     if (questions.length === 0 || score !== null) return;
 
@@ -46,6 +49,7 @@ function AIInterview() {
     setCurrentIndex(0);
     setAnswers({});
     setTimeLeft(60);
+    setQuestions([]); // reset
 
     try {
       const res = await axios.post(
@@ -55,18 +59,22 @@ function AIInterview() {
 
       let list = [];
 
-      if (Array.isArray(res.data.questions)) list = res.data.questions;
-      else if (typeof res.data.questions === "string")
+      // Check response type safely
+      if (Array.isArray(res.data.questions)) {
+        list = res.data.questions;
+      } else if (typeof res.data.questions === "string") {
         list = res.data.questions
           .split(/\r?\n/)
           .map((q) => q.trim())
           .filter((q) => q !== "");
+      } else {
+        console.warn("Unexpected questions format", res.data.questions);
+      }
 
-      if (list.length === 0) throw new Error("No questions received");
-
+      if (!Array.isArray(list)) list = [];
       setQuestions(list);
     } catch (err) {
-      console.error("Generation error:", err);
+      console.error("Error generating questions:", err);
       alert("Failed to generate questions. Check console.");
     } finally {
       setLoading(false);
@@ -86,13 +94,10 @@ function AIInterview() {
     }
   };
 
-  // Score calculation
   const calculateScore = () => {
     let totalScore = 0;
-
-    questions.forEach((q, index) => {
-      const answer = answers[index] || "";
-
+    questions.forEach((q, idx) => {
+      const answer = answers[idx] || "";
       if (answer.length > 20) totalScore += 5;
       if (answer.length > 50) totalScore += 5;
 
@@ -101,7 +106,6 @@ function AIInterview() {
         if (answer.toLowerCase().includes(word)) totalScore += 1;
       });
     });
-
     setScore(totalScore);
   };
 
@@ -113,11 +117,12 @@ function AIInterview() {
         <div className="ai-form">
           <select value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="">-- Select Job Role --</option>
-            {jobs.map((job) => (
-              <option key={job._id} value={job.title}>
-                {job.title} @ {job.company}
-              </option>
-            ))}
+            {Array.isArray(jobs) &&
+              jobs.map((job) => (
+                <option key={job._id} value={job.title}>
+                  {job.title} @ {job.company}
+                </option>
+              ))}
           </select>
 
           <button onClick={handleGenerate} disabled={loading}>
@@ -125,31 +130,35 @@ function AIInterview() {
           </button>
         </div>
 
-        {questions.length > 0 && score === null && (
-          <div className="interview-section">
-            <div className="timer">⏳ Time Left: {timeLeft}s</div>
+        {/* Interview Section */}
+        {Array.isArray(questions) &&
+          questions.length > 0 &&
+          score === null && (
+            <div className="interview-section">
+              <div className="timer">⏳ Time Left: {timeLeft}s</div>
 
-            <div className="question-block">
-              <h4>
-                Question {currentIndex + 1} of {questions.length}
-              </h4>
-              <p>{questions[currentIndex]}</p>
+              <div className="question-block">
+                <h4>
+                  Question {currentIndex + 1} of {questions.length}
+                </h4>
+                <p>{questions[currentIndex]}</p>
 
-              <textarea
-                placeholder="Type your answer..."
-                value={answers[currentIndex] || ""}
-                onChange={(e) => handleAnswerChange(e.target.value)}
-              />
+                <textarea
+                  placeholder="Type your answer..."
+                  value={answers[currentIndex] || ""}
+                  onChange={(e) => handleAnswerChange(e.target.value)}
+                />
+              </div>
+
+              <button className="next-btn" onClick={handleNext}>
+                {currentIndex + 1 === questions.length
+                  ? "Finish Interview"
+                  : "Next Question"}
+              </button>
             </div>
+          )}
 
-            <button className="next-btn" onClick={handleNext}>
-              {currentIndex + 1 === questions.length
-                ? "Finish Interview"
-                : "Next Question"}
-            </button>
-          </div>
-        )}
-
+        {/* Result Section */}
         {score !== null && (
           <div className="result-section">
             <h3>Interview Completed 🎉</h3>
