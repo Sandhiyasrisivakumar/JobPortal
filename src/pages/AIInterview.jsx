@@ -21,13 +21,22 @@ function AIInterview() {
   }, []);
 
   // Timer logic
-useEffect(() => {
+
+
+  useEffect(() => {
   if (questions.length === 0 || score !== null) return;
 
   const timer = setInterval(() => {
     setTimeLeft(prev => {
       if (prev <= 1) {
-        handleNext();
+        setCurrentIndex(prevIndex => {
+          if (prevIndex + 1 < questions.length) {
+            return prevIndex + 1;
+          } else {
+            calculateScore();
+            return prevIndex;
+          }
+        });
         return 60;
       }
       return prev - 1;
@@ -35,7 +44,7 @@ useEffect(() => {
   }, 1000);
 
   return () => clearInterval(timer);
-}, [questions, currentIndex, score]);
+}, [questions, score]);
 
 const handleGenerate = async () => {
   if (!role) {
@@ -50,10 +59,7 @@ const handleGenerate = async () => {
     setAnswers({});
     setTimeLeft(60);
 
-    const res = await axios.post(
-      "https://jobportal-1-x84n.onrender.com/api/ai/questions",
-      { role }
-    );
+    const res = axios.post(`${import.meta.env.VITE_API_URL}/api/ai/questions`, { role })
 
     console.log("API Response:", res.data); // DEBUG
 
@@ -86,9 +92,12 @@ const handleGenerate = async () => {
   }
 };
 
-  const handleAnswerChange = (value) => {
-    setAnswers({ ...answers, [currentIndex]: value });
-  };
+ const handleAnswerChange = (value) => {
+  setAnswers(prev => ({
+    ...prev,
+    [currentIndex]: value
+  }));
+};
 
   const handleNext = () => {
     if (currentIndex + 1 < questions.length) {

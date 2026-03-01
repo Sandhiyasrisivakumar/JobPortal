@@ -13,7 +13,7 @@ function JobList() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("https://jobportal-1-x84n.onrender.com/api/jobs"); // ✅ removed localhost
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs`); // ✅ removed localhost
         console.log("API DATA:", res.data); // 👈 ADD THIS
         setJobs(res.data);
       } catch (err) {
