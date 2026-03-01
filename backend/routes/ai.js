@@ -1,22 +1,6 @@
 import express from "express";
-import OpenAI from "openai";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
 
 const router = express.Router();
-
-// Ensure .env is loaded
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, "../.env") });
-
-// Read API key
-const apiKey = process.env.OPENAI_API_KEY;
-if (!apiKey) throw new Error("OpenAI API Key not found in environment variables!");
-
-// Initialize OpenAI
-const openai = new OpenAI({ apiKey });
 
 // POST /api/ai/questions
 router.post("/questions", async (req, res) => {
@@ -27,21 +11,25 @@ router.post("/questions", async (req, res) => {
   }
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: "You are an expert technical interviewer." },
-        { role: "user", content: `Generate 5–10 technical interview questions for the role: ${role}. Only questions, no answers. Make it professional and relevant.` }
-      ],
-      temperature: 0.7,
-      max_tokens: 400
-    });
+    // Mock AI Question Generator
+    const questions = `
+1. What are the core responsibilities of a ${role}?
+2. What technologies are commonly used in ${role}?
+3. Explain a challenging project you handled as a ${role}.
+4. How do you debug issues in ${role} development?
+5. What best practices do you follow as a ${role}?
+6. How do you optimize performance in ${role} related tasks?
+7. Explain REST APIs and their role in ${role}.
+8. What is version control and why is it important?
+9. Describe problem-solving strategies in ${role}.
+10. How do you stay updated with industry trends?
+    `;
 
-    const questions = response.choices[0].message.content;
     res.json({ questions });
+
   } catch (err) {
-    console.error("OpenAI error:", err);
-    res.status(500).json({ message: "AI generation failed", error: err.message });
+    console.error("Error generating questions:", err);
+    res.status(500).json({ message: "Failed to generate questions" });
   }
 });
 
