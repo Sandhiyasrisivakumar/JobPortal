@@ -28,7 +28,7 @@ router.post("/questions", async (req, res) => {
 
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "You are an expert technical interviewer." },
         { role: "user", content: `Generate 5–10 technical interview questions for the role: ${role}. Only questions, no answers. Make it professional and relevant.` }
