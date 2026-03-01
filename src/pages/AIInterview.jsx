@@ -21,48 +21,70 @@ function AIInterview() {
   }, []);
 
   // Timer logic
-  useEffect(() => {
-    if (questions.length === 0 || score !== null) return;
+useEffect(() => {
+  if (questions.length === 0 || score !== null) return;
 
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev === 1) {
-          handleNext();
-          return 60;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+  const timer = setInterval(() => {
+    setTimeLeft(prev => {
+      if (prev <= 1) {
+        handleNext();
+        return 60;
+      }
+      return prev - 1;
+    });
+  }, 1000);
 
-    return () => clearInterval(timer);
-  }, [questions, currentIndex, score]);
+  return () => clearInterval(timer);
+}, [questions, currentIndex, score]);
 
-  const handleGenerate = async () => {
-    if (!role) return alert("Please select a job role");
+const handleGenerate = async () => {
+  if (!role) {
+    alert("Please select a job role");
+    return;
+  }
 
+  try {
     setLoading(true);
     setScore(null);
     setCurrentIndex(0);
     setAnswers({});
     setTimeLeft(60);
 
-    try {
-      const res = await axios.post(
-        "https://jobportal-1-x84n.onrender.com/api/ai/questions",
-        { role }
-      );
+    const res = await axios.post(
+      "https://jobportal-1-x84n.onrender.com/api/ai/questions",
+      { role }
+    );
 
-      const list = Array.isArray(res.data.questions)
-        ? res.data.questions
-        : res.data.questions.split(/\r?\n/).filter(q => q.trim() !== "");
+    console.log("API Response:", res.data); // DEBUG
 
-      setQuestions(list);
-    } catch (err) {
-      alert("Failed to generate questions.");
+    if (!res.data || !res.data.questions) {
+      throw new Error("Invalid response from server");
     }
 
+    let list = [];
+
+    if (Array.isArray(res.data.questions)) {
+      list = res.data.questions;
+    } else if (typeof res.data.questions === "string") {
+      list = res.data.questions
+        .split(/\r?\n/)
+        .map(q => q.trim())
+        .filter(q => q !== "");
+    }
+
+    if (list.length === 0) {
+      throw new Error("No questions received");
+    }
+
+    setQuestions(list);
+
+  } catch (err) {
+    console.error("Generation error:", err);
+    alert("Failed to generate questions. Check console.");
+  } finally {
     setLoading(false);
-  };
+  }
+};
 
   const handleAnswerChange = (value) => {
     setAnswers({ ...answers, [currentIndex]: value });
