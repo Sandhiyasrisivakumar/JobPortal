@@ -15,7 +15,7 @@ function AIInterview() {
   // Fetch jobs
   useEffect(() => {
     axios
-      .get("https://jobportal-1-x84n.onrender.com/api/jobs")
+      .get(`${import.meta.env.VITE_API_URL}/api/jobs`);
       .then((res) => setJobs(res.data))
       .catch((err) => console.error(err));
   }, []);
