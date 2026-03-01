@@ -26,30 +26,41 @@ import aiRoutes from "./routes/ai.js";
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: [
-    "http://localhost:5173",   // for local development (Vite)
-    "https://job-portal-olive-three.vercel.app"
-  ],
-  credentials: true
-}));
+// ===== CORS Setup =====
+// Allow requests from your frontend Vercel URL and local Vite dev server
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // Vite dev server
+      "https://job-portal-xh2e.vercel.app", // Your deployed frontend URL
+      "https://job-portal-olive-three.vercel.app" // other possible frontend URLs
+    ],
+    credentials: true, // if you use cookies/auth headers
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  })
+);
+
+// ===== Middleware =====
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
+// ===== Routes =====
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/admin", adminRoutes);
 
-// Connect to MongoDB
+// ===== Connect to MongoDB =====
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => console.log("MongoDB connected successfully"))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error("MongoDB connection error:", err));
 
+// ===== Start Server =====
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
