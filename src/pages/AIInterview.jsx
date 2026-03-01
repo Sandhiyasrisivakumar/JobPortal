@@ -102,7 +102,7 @@ function AIInterview() {
   return (
     <div className="ai-page">
       <div className="ai-card">
-        <h2>AI Timed Mock Interview</h2>
+        <h2>AI Timer Mock Interview</h2>
 
         <div className="ai-form">
           <select value={role} onChange={(e) => setRole(e.target.value)}>
