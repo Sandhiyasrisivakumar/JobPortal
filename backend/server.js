@@ -52,9 +52,8 @@ app.use("/api/applications", applicationRoutes);
 app.use("/api/admin", adminRoutes);
 
 // ===== Connect to MongoDB =====
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected successfully"))
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB Atlas connected successfully"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
   
 
