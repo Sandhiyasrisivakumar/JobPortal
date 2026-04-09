@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -13,28 +14,42 @@ function Login() {
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-    // Basic validation
-    if (!email || !password) {
-      setError("Please fill all fields");
-      return;
-    }
+  if (!email || !password) {
+    setError("Please fill all fields");
+    return;
+  }
 
-    // Dummy login check
-    if (email === "admin@gmail.com" && password === "123456") {
-      localStorage.setItem("user", JSON.stringify({ email }));
-
-      if (remember) {
-        localStorage.setItem("rememberUser", email);
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/auth/login`,
+      {
+        email,
+        password
       }
+    );
 
-      navigate("/dashboard");
-    } else {
-      setError("Invalid email or password");
+    console.log("LOGIN RESPONSE:", res.data);
+
+    // store token
+    localStorage.setItem("token", res.data.token);
+
+    // OPTIONAL: store user info
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+
+    if (remember) {
+      localStorage.setItem("rememberUser", email);
     }
-  };
+
+    navigate("/dashboard");
+
+  } catch (err) {
+    console.error(err);
+    setError(err.response?.data?.message || "Login failed");
+  }
+};
 
 
 

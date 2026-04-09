@@ -297,6 +297,137 @@
 .job-card:hover .save-btn {
   box-shadow: 0 0 12px rgba(17, 24, 39, 0.4);
 }
+
+/* =======================
+   AI INTERVIEW BUTTON
+======================= */
+.ai-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 14px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  color: white;
+
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.3);
+
+  transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.ai-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 10px 25px rgba(14, 165, 233, 0.5);
+}
+
+/* Click Effect */
+.ai-btn:active {
+  transform: scale(0.96);
+}
+
+/* Glow animation */
+.ai-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.ai-btn:hover::after {
+  opacity: 1;
+}
+
+/* HAMBURGER ICON */
+.hamburger {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 1100;
+  background: white;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background: #111827;
+  color: white;
+  padding: 20px;
+  transition: 0.3s ease;
+  z-index: 1000;
+}
+
+/* OPEN STATE */
+.sidebar.open {
+  left: 0;
+}
+
+/* LOGO */
+.sidebar .logo {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* BUTTONS */
+.sidebar button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.sidebar button:hover {
+  background: #374151;
+}
+
+/* LOGOUT */
+.logout-btn {
+  margin-top: 20px;
+  background: #ef4444;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 900;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .ai-btn {
+    width: 100%;
+  }
+}
 @media (max-width: 768px) {
 
   .dashboard {

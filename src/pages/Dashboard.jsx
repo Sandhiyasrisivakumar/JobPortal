@@ -8,7 +8,8 @@ import {
   FaSignOutAlt,
   FaBriefcase,
   FaBookmark,
-  FaCheckCircle
+  FaCheckCircle,
+  FaBars, FaTimes
 } from "react-icons/fa";
 
 
@@ -51,7 +52,7 @@ useEffect(() => {
     setSkills(updatedSkills);
   };
 
- 
+ const [sidebarOpen, setSidebarOpen] = useState(false);
 
  
 
@@ -176,7 +177,41 @@ const toggleSaveJob = (job) => {
   return (
     <div className="dashboard">
       <h2>Welcome to Dashboard</h2>
+{/* Sidebar Toggle */}
+<div className="hamburger" onClick={() => setSidebarOpen(!sidebarOpen)}>
+  {sidebarOpen ? <FaTimes /> : <FaBars />}
+</div>
+{/* Sidebar */}
+<div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+  <h3 className="logo">Job Portal</h3>
 
+  <button onClick={() => navigate("/dashboard")}>
+    🏠 Dashboard
+  </button>
+
+  <button onClick={() => navigate("/profile")}>
+    👤 Profile
+  </button>
+
+  <button onClick={() => navigate("/jobs")}>
+    💼 Jobs
+  </button>
+
+  <button onClick={() => navigate("/ai-interview")}>
+    🤖 AI Interview
+  </button>
+
+  <button onClick={handleLogout} className="logout-btn">
+    🚪 Logout
+  </button>
+</div>
+
+{sidebarOpen && (
+  <div
+    className="overlay"
+    onClick={() => setSidebarOpen(false)}
+  ></div>
+)}
    
    <div className="menu">
   <button className="menu-btn" onClick={() => navigate("/profile")}>
@@ -190,8 +225,11 @@ const toggleSaveJob = (job) => {
 
 
 
-<button onClick={() => navigate("/ai-interview")}>
-  AI Interview Questions
+<button
+  className="ai-btn"
+  onClick={() => navigate("/ai-interview")}
+>
+  🤖 AI Interview Questions
 </button>
       <h2>My Skill Progress</h2>
 

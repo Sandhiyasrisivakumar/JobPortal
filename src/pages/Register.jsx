@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import "./Register.css";
 
 function Register() {
@@ -16,34 +17,36 @@ function Register() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-const handleRegister = (e) => {
-  e.preventDefault();
+  const handleRegister = async (e) => {
+    e.preventDefault();
 
-  if (form.password !== form.confirmPassword) {
-    alert("Passwords do not match");
-    return;
-  }
+    if (form.password !== form.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
 
-  const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/register`,
+        {
+          name: form.name,
+          email: form.email,
+          password: form.password
+        }
+      );
 
-  const exists = users.find(u => u.email === form.email);
-  if (exists) {
-    alert("User already exists");
-    return;
-  }
+      alert("Registered successfully!");
+      navigate("/");
 
-  users.push({
-    name: form.name,
-    email: form.email,
-    password: form.password
-  });
-
-  localStorage.setItem("users", JSON.stringify(users));
-
-  alert("Registration successful!");
-  navigate("/");
-};
-
+    } catch (err) {
+      console.log(err);
+      alert(
+        err.response?.data?.message ||
+        err.message ||
+        "Registration failed"
+      );
+    }
+  };
 
   return (
     <div className="register-container">
